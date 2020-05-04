@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,13 +18,13 @@ public class BeerResource {
     private Beers beers;
 
     @GetMapping
-    public List<String> all() {
-        return Arrays.asList("Heineken", "Colorado Indiga", "Stella Artois");
+    public List<Beer> all() {
+        return beers.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Beer create(@RequestBody Beer beer) {
+    public Beer create(@Valid @RequestBody Beer beer) {
         return beers.save(beer);
     }
 }
