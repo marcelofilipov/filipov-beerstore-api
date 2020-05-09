@@ -40,7 +40,6 @@ public class ApiExceptionHandler {
                 .collect(toList());
 
         ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.BAD_REQUEST, apiErrors);
-
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
@@ -50,11 +49,21 @@ public class ApiExceptionHandler {
         final String errorCode = "generic-1";
 
         final ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.BAD_REQUEST, toApiError(errorCode, locale, exception.getValue()));
-
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
-    private ApiError toApiError(String code, Locale locale, Object... args) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleUnexpectedException(Exception exception, Locale locale) {
+        LOG.error("Error not expected", exception);
+        final String errorCode = "error-1";
+        final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale));
+        return ResponseEntity.status(status).body(errorResponse);
+    }
+
+
+        private ApiError toApiError(String code, Locale locale, Object... args) {
         String message;
         try {
             message = apiErrorMessageSource.getMessage(code, args, locale);
