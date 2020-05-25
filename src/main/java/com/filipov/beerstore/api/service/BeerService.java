@@ -3,6 +3,7 @@ package com.filipov.beerstore.api.service;
 import com.filipov.beerstore.api.model.Beer;
 import com.filipov.beerstore.api.repository.Beers;
 import com.filipov.beerstore.api.service.exception.BeerAlreadyExistException;
+import com.filipov.beerstore.api.service.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,15 @@ public class BeerService {
     public Beer save(final Beer beer) {
         verifyIfBeerExists(beer);
         return beers.save(beer);
+    }
+
+    public void delete(Long id) {
+        Optional<Beer> beerOptional = beers.findById(id);
+
+        if (!beerOptional.isPresent())
+            throw new EntityNotFoundException();
+
+        beers.delete(beerOptional.get());
     }
 
     private void verifyIfBeerExists(final Beer beer) {

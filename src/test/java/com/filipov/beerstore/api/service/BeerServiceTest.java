@@ -8,6 +8,7 @@ import com.filipov.beerstore.api.model.Beer;
 import com.filipov.beerstore.api.model.BeerType;
 import com.filipov.beerstore.api.repository.Beers;
 import com.filipov.beerstore.api.service.exception.BeerAlreadyExistException;
+import com.filipov.beerstore.api.service.exception.EntityNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -116,6 +117,34 @@ public class BeerServiceTest {
         beerToUpdate.setVolume(new BigDecimal("355"));
 
         beerService.save(beerToUpdate);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void delete_when_beer_not_exist() {
+        final Beer beerToUpdate = new Beer();
+        beerToUpdate.setId(5L);
+        beerToUpdate.setName("Heineken");
+        beerToUpdate.setType(BeerType.LAGER);
+        beerToUpdate.setVolume(new BigDecimal("355"));
+
+        when(beersMocked.findById(5L))
+                .thenReturn(Optional.empty());
+
+        beerService.delete(5L);
+    }
+
+    @Test
+    public void delete_of_an_existing_beer_that_already_exist() {
+        final Beer beerInDatabase = new Beer();
+        beerInDatabase.setId(10L);
+        beerInDatabase.setName("Heineken");
+        beerInDatabase.setType(BeerType.LAGER);
+        beerInDatabase.setVolume(new BigDecimal("355"));
+
+        when(beersMocked.findById(10L))
+                .thenReturn(Optional.of(beerInDatabase));
+
+        beerService.delete(10L);
     }
 
 }
