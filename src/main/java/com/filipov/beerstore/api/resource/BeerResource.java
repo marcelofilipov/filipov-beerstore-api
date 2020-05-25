@@ -2,6 +2,7 @@ package com.filipov.beerstore.api.resource;
 
 import com.filipov.beerstore.api.model.Beer;
 import com.filipov.beerstore.api.repository.Beers;
+import com.filipov.beerstore.api.service.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class BeerResource {
     @Autowired
     private Beers beers;
 
+    @Autowired
+    private BeerService beerService;
+
     @GetMapping
     public List<Beer> all() {
         return beers.findAll();
@@ -25,6 +29,6 @@ public class BeerResource {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Beer create(@Valid @RequestBody Beer beer) {
-        return beers.save(beer);
+        return beerService.save(beer);
     }
 }

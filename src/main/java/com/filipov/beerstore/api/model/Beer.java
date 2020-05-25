@@ -25,6 +25,8 @@ public class Beer {
     private String name;
 
     @NotNull(message = "beers-2")
+    //TODO - Implement
+    // @Enumerated(EnumType.STRING)
     private BeerType type;
 
     @NotNull(message = "beers-3")
