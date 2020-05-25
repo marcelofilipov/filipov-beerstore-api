@@ -3,6 +3,7 @@ package com.filipov.beerstore.api.error;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.filipov.beerstore.api.error.ErrorResponse.ApiError;
 import com.filipov.beerstore.api.service.exception.BusinessException;
+import com.filipov.beerstore.api.service.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +66,16 @@ public class ApiExceptionHandler {
         final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale));
 
         return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(Locale locale) {
+        final String errorCode = "beers-6";
+        final HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+
+        final ErrorResponse errorResponse = ErrorResponse.of(httpStatus, toApiError(errorCode, locale));
+
+        return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 
     protected ApiError toApiError(String code, Locale locale, Object... args) {
