@@ -19,7 +19,7 @@ module "rds" {
   maintenance_window = "Thu:03:30-Thu:05:30"
   backup_window = "05:30-06:30"
   storage_type = "gp2" // hd ssd
-  multi_az = "false" // Bancos em espera nas outras instâncias - não tem na versão free
+  multi_az = "true" // Bancos em espera nas outras instâncias - não tem na versão free
   family = "postgres11"
 
   subnet_ids = flatten(chunklist(aws_subnet.private_subnet.*.id, 1))
