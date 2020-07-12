@@ -42,6 +42,17 @@
       when: swarm_mode.stdout == "active"
       register: master_token
 
+    - shell: "docker network ls | grep service -c | { grep -v grep || true; }"
+      register: overlay_network_created
+      vars:
+        ansible_python_interpreter: /usr/bin/python
+
+    - name: Create service overlay network
+      vars:
+        ansible_python_interpreter: /usr/bin/python
+      command: docker network create --driver overlay --subnet 10.0.0.0/16 service
+      when: overlay_network_created.stdout == "0"
+
 - name: Join Swarm Cluster
   hosts: manager_follower
   remote_user: ec2-user
