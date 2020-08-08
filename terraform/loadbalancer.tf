@@ -1,6 +1,6 @@
 resource "aws_lb" "alb" {
   name            = "filservtech-alb"
-  #security_groups = ["${aws_security_group.allow_load_balancer.id}"]
+  security_groups = ["${aws_security_group.allow_load_balancer.id}"]
   subnets         = flatten(chunklist(aws_subnet.public_subnet.*.id, 1))
 
   enable_deletion_protection = false
