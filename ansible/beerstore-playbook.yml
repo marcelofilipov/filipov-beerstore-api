@@ -6,9 +6,9 @@
   become: true
   tasks:
     - name: Install Docker
-      yum: name=docker
       vars:
         ansible_python_interpreter: /usr/bin/python
+      yum: name=docker
 
     - name: Ensure docker service is started and enabled
       vars:
@@ -90,14 +90,14 @@
         ansible_python_interpreter: /usr/bin/python
 
     - name: Join swarm cluster as manager
-      vars:
-        ansible_python_interpreter: /usr/bin/python
       command: docker swarm join --token {{ token }} {{ master }}:2377
       when: swarm_mode.stdout == "inactive"
       register: follower
+      vars:
+        ansible_python_interpreter: /usr/bin/python
 
     - name: Show join cluster results
-      debug: var=follower.stdout
+     debug: var=follower.stdout
 
     - name: Show join cluster errors
       debug: var=follower.stderr

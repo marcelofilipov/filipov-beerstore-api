@@ -34,3 +34,8 @@ out/
 ### Terraform ###
 /terraform/.terraform/
 /terraform/key/
+
+/ansible/terraform.tfstate*
+/terraform/terraform.tfstate*
+
+/terraform/hosts
