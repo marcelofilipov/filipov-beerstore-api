@@ -1,7 +1,6 @@
 ![GitHub](https://img.shields.io/github/license/marcelofilipov/filipov-beerstore-api)
 ![GitHub top language](https://img.shields.io/github/languages/top/marcelofilipov/filipov-beerstore-api)
 ![GitHub repo size](https://img.shields.io/github/repo-size/marcelofilipov/filipov-beerstore-api)
-![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/marcelofilipov/filipov-beerstore-api)
 
 # BeerStore - API
 
